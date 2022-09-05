@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>4. Nodes</title>
+  </head>
+  <body>
+    <h1>Heading 1</h1>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Profectus in
+    exilium Tubulus statim nec respondere ausus; Neutrum vero, inquit ille.
+    Disserendi artem nullam habuit.
+
+    <!-- Some comment -->
+
+    <p>
+      Sed tamen est aliquid, quod nobis non liceat, liceat illis. Duo Reges:
+      constructio interrete. Hoc etsi multimodis reprehendi potest, tamen
+      accipio, quod dant. Quid igitur, inquit, eos responsuros putas? Bestiarum
+      vero nullum iudicium puto. Ex ea difficultate illae fallaciloquae, ut ait
+      Accius, malitiae natae sunt.
+    </p>
+
+    <script>
+      let nodeTypeList = Reflect.ownKeys(Node).slice(4, 16);
+      delete nodeTypeList[0];
+      // [empty, 'ELEMENT_NODE', 'ATTRIBUTE_NODE', 'TEXT_NODE', 'CDATA_SECTION_NODE', 'ENTITY_REFERENCE_NODE', 'ENTITY_NODE', 'PROCESSING_INSTRUCTION_NODE', 'COMMENT_NODE', 'DOCUMENT_NODE', 'DOCUMENT_TYPE_NODE', 'DOCUMENT_FRAGMENT_NODE']
+
+      traverse(document);
+
+      function traverse(node) {
+        if (node) {
+          console.log(
+            node.nodeName,
+            node.nodeValue,
+            node.nodeType,
+            nodeTypeList[node.nodeType]
+          );
+
+          if (node.childNodes && node.childNodes.length) {
+            Array.from(node.childNodes).forEach((element) => {
+              traverse(element);
+            });
+          }
+        }
+      }
+
+      const htmlCollection = document.getElementsByTagName("html");
+      console.group("traverse2");
+      traverse2(htmlCollection);
+      console.groupEnd();
+
+      function traverse2(htmlCollection) {
+        if (htmlCollection) {
+          Array.from(htmlCollection).forEach((element) => {
+            console.log(
+              element.nodeName,
+              // element.nodeValue, // null
+              element.nodeType,
+              nodeTypeList[element.nodeType]
+            );
+
+            traverse2(element.children);
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

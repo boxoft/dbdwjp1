@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>5. Traversing the DOM</title>
+    <style>
+      :root {
+        --width: 0.5rem;
+        --color: orange;
+        --gap: 1rem;
+      }
+      .parent,
+      .child,
+      .grandchild {
+        border: var(--width) solid var(--color);
+        padding: var(--gap);
+        margin: var(--gap);
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      Parent
+      <div class="child">
+        Child
+        <!-- 2 Grandchildren -->
+        <div class="grandchild">1st Grandchild</div>
+        <div class="grandchild">2nd Grandchild</div>
+      </div>
+    </div>
+
+    <script>
+      const parent = document.querySelector('.parent')
+      const firstGrandchild = document.querySelector('.grandchild')
+
+      traverse(upstream, firstGrandchild)
+      traverse(upstreamElement, firstGrandchild)
+      traverse(previous, firstGrandchild)
+      traverse(previousElement, firstGrandchild)
+      traverse(next, firstGrandchild)
+      traverse(nextElement, firstGrandchild)
+      traverse(downstream, parent)
+      traverse(downstreamElement, parent)
+
+      function traverse(func, element) {
+        console.group(func.name)
+        func(element)
+        console.groupEnd()
+      }
+
+      function upstream(node) {
+        console.log(node)
+
+        if (node.parentNode) {
+          upstream(node.parentNode)
+        }
+      }
+
+      function upstreamElement(node) {
+        console.log(node)
+
+        if (node.parentElement) {
+          upstream(node.parentElement)
+        }
+      }
+
+      function previous(node) {
+        console.log(node)
+
+        if (node.previousSibling) {
+          previous(node.previousSibling)
+        }
+      }
+
+      function previousElement(element) {
+        console.log(element)
+
+        if (element.previousElementSibling) {
+          previous(element.previousElementSibling)
+        }
+      }
+
+      function next(node) {
+        console.log(node)
+
+        if (node.nextSibling) {
+          next(node.nextSibling)
+        }
+      }
+
+      function nextElement(element) {
+        console.log(element)
+
+        if (element.nextElementSibling) {
+          nextElement(element.nextElementSibling)
+        }
+      }
+
+      function downstream(node) {
+        console.log(node)
+
+        if (node.hasChildNodes()) {
+          Array.from(node.childNodes).forEach((n) => {
+            downstream(n)
+          })
+        }
+      }
+
+      function downstreamElement(element) {
+        console.log(element)
+
+        const children = element.children
+
+        if (children && children.length) {
+          Array.from(children).forEach((element) => {
+            downstreamElement(element)
+          })
+        }
+      }
+    </script>
+  </body>
+</html>
