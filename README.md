@@ -134,6 +134,33 @@
 
 6. Creating, Removing and Cloning DOM Elements
 
+- Web APIs
+  - Document
+    - [Document.createElement()](https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement)
+      - > A new `HTMLElement` is returned if the document is an `HTMLDocument`, which is the most common case. Otherwise a new `Element` is returned.
+  - Node
+    - [Node.appendChild(aChild)](https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild)
+      - returns
+        - > A `Node` that is the appended child (`aChild`), except ...
+    - [Node.insertBefore()](https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore)
+      - > Returns the added child.
+    - [Node.replaceChild()](https://developer.mozilla.org/en-US/docs/Web/API/Node/replaceChild)
+      - returns
+        - > The replaced `Node`.
+    - [Node.removeChild()](https://developer.mozilla.org/en-US/docs/Web/API/Node/removeChild)
+    - [Node.cloneNode()](https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode)
+      - returns
+        - > The new `Node` cloned.
+    - [Node.textContent](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent)
+      - > A string, or `null`.
+  - Element
+    - [Element.innerHTML](https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML)
+      - > A string containing the HTML serialization of the element's descendants.
+    - [Element.remove()](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove)
+  - HTMLElement
+    - [HTMLElement.innerText](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/innerText)
+      - > A string representing the rendered text content of an element.
+
 7. Where to next
 
 ## Known Issues

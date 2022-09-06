@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>6. Creating, Removing and Cloning DOM Elements</title>
+    <style>
+      :root {
+        --width: 0.5rem;
+        --color: orange;
+        --gap: 1rem;
+      }
+      .parent,
+      .child,
+      .grandchild {
+        border: var(--width) solid var(--color);
+        padding: var(--gap);
+        margin: var(--gap);
+      }
+      button {
+        margin: var(--gap);
+      }
+      .message {
+        background-color: var(--color);
+        padding: var(--gap);
+        margin: var(--gap);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="parent">
+      Parent
+      <div class="child">
+        Child
+        <!-- 2 Grandchildren -->
+        <div class="grandchild">1st Grandchild</div>
+        <div class="grandchild">2nd Grandchild</div>
+      </div>
+    </div>
+
+    <script>
+      const parent = document.querySelector('.parent')
+      const child = document.querySelector('.child')
+      const firstGrandchild = document.querySelector('.grandchild')
+
+      // Omit validations.
+
+      console.log(document.querySelector('body') === document.body)
+
+      const paragraph = create(
+        'p',
+        {
+          textContent:
+            'Lorem ipsum dolor sit amet penatibus eleifend penatibus mea semper nec mus kasd assentior fficiis.'
+        },
+        { class: 'message' }
+      )
+      document.body.appendChild(paragraph)
+
+      const prompt = paragraph.cloneNode(true)
+      prompt.textContent =
+        'Click a button to add more. Right click a button to remove it!'
+      child.insertBefore(prompt, firstGrandchild)
+
+      const button = create('button', { innerText: 'Click Me' })
+      child.insertBefore(button, firstGrandchild)
+
+      const scriptElement = document.createElement('script')
+      scriptElement.innerHTML = `
+      window.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('button')) {
+          addButton()
+        }
+      })
+      window.addEventListener('contextmenu', (event) => {
+        if (event.target instanceof Element && event.target.closest('button')) {
+          const button = event.target.closest('button')
+          button.remove()
+
+          // Default action:	Invoke a context menu if supported.
+          // https://w3c.github.io/uievents/#event-type-contextmenu
+          event.preventDefault()
+        }
+      })
+      `
+      document.body.appendChild(scriptElement)
+
+      const child2 = create(
+        'div',
+        { textContent: '2nd Child' },
+        { class: 'child' }
+      )
+      insertAfter(child2, child)
+
+      function create(tagName, more, attributes) {
+        const element = document.createElement(tagName)
+
+        if (more) {
+          const keys = Reflect.ownKeys(more)
+
+          keys.forEach((key) => (element[key] = more[key]))
+        }
+
+        if (attributes) {
+          const keys = Reflect.ownKeys(attributes)
+
+          keys.forEach((key) => element.setAttribute(key, attributes[key]))
+        }
+
+        return element
+      }
+
+      function addButton() {
+        if (typeof addButton.count === 'undefined') {
+          addButton.count = 0
+        } else {
+          addButton.count++
+        }
+
+        const button = create('button', {
+          innerText: `Click Me ${addButton.count}`
+        })
+        child.appendChild(button)
+      }
+
+      function insertAfter(newElement, siblingElement) {
+        const parentElement = siblingElement.parentElement
+        const nextElement = siblingElement.nextElementSibling
+
+        if (parentElement) {
+          parentElement.insertBefore(newElement, nextElement)
+        }
+      }
+    </script>
+  </body>
+</html>
